@@ -19,14 +19,14 @@ public class CompensationController {
     @PostMapping("/compensation")
     public ResponseEntity<Compensation> create(@RequestBody Compensation compensation) {
         LOG.debug("Received compensation create request for [{}]", compensation);
-        //I would want to be consistent with the employee controller return types, but decided to illustrate use of ResponseEntity for more control (allows for returning 201 response)
-        return new ResponseEntity<>(compensationService.create(compensation), HttpStatus.CREATED);
+        //I would want to be consistent with the employee controller return types, but decided to illustrate use of ResponseEntity for more control over response
+        return ResponseEntity.status(HttpStatus.CREATED).body(compensationService.create(compensation));
     }
 
     @GetMapping("/compensation/{id}")
     public ResponseEntity<Compensation> read(@PathVariable String id) {
         LOG.debug("Received compensation get request for id [{}]", id);
 
-        return new ResponseEntity<>(compensationService.read(id), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(compensationService.read(id));
     }
 }

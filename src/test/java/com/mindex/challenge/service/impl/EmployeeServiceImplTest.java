@@ -59,8 +59,8 @@ public class EmployeeServiceImplTest {
 
         // Read checks
         Employee readEmployee = restTemplate.getForEntity(employeeIdUrl, Employee.class, createdEmployee.getEmployeeId()).getBody();
-        assertEquals(createdEmployee.getEmployeeId(), readEmployee.getEmployeeId());
-        assertEmployeeEquivalence(createdEmployee, readEmployee);
+        assertEquals(readEmployee.getEmployeeId(), createdEmployee.getEmployeeId());
+        assertEmployeeEquivalence(readEmployee, createdEmployee);
 
 
         // Update checks
@@ -100,8 +100,8 @@ public class EmployeeServiceImplTest {
 
         ReportingStructure generatedReportingStructure = restTemplate.getForEntity(reportingStructureUrl, ReportingStructure.class, createdEmployee.getEmployeeId()).getBody();
         assertEquals(1, generatedReportingStructure.getNumberOfReports());
-        assertEmployeeEquivalence(generatedReportingStructure.getEmployee(), createdEmployee);
-        assertEmployeeEquivalence(generatedReportingStructure.getEmployee().getDirectReports().get(0), reportingEmployee);
+        assertEmployeeEquivalence(createdEmployee, generatedReportingStructure.getEmployee());
+        assertEmployeeEquivalence(reportingEmployee, generatedReportingStructure.getEmployee().getDirectReports().get(0));
     }
 
     private static void assertEmployeeEquivalence(Employee expected, Employee actual) {

@@ -3,6 +3,7 @@ package com.mindex.challenge.service.impl;
 import com.mindex.challenge.dao.data.Compensation;
 import com.mindex.challenge.dao.data.Employee;
 import com.mindex.challenge.service.CompensationService;
+import com.mindex.challenge.service.EmployeeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +26,9 @@ public class CompensationServiceImplTest {
     private String getUrl;
 
     @Autowired
-    private CompensationService employeeService;
+    private CompensationService compensationService;
+    @Autowired
+    private EmployeeService employeeService;
 
     @LocalServerPort
     private int port;
@@ -42,17 +45,18 @@ public class CompensationServiceImplTest {
     @Test
     public void testCreateRead() {
         Employee testEmployee = new Employee();
-        testEmployee.setEmployeeId("12345");
         testEmployee.setFirstName("John");
         testEmployee.setLastName("Doe");
         testEmployee.setDepartment("Engineering");
         testEmployee.setPosition("Developer");
         Compensation testComp = new Compensation();
-        testComp.setEmployeeId("12345");
         testComp.setEmployee(testEmployee);
         testComp.setSalary(1000000);
         Date effDate = new Date();
         testComp.setEffectiveDate(effDate);
+        employeeService.create(testEmployee);
+        testComp.setEmployeeId(employeeService.create(testEmployee).getEmployeeId());
+
 
         // Create checks
         Compensation createdComp = restTemplate.postForEntity(createUrl, testComp, Compensation.class).getBody();
@@ -74,7 +78,6 @@ public class CompensationServiceImplTest {
     }
 
     private static void assertCompensationEquivalence(Compensation expected, Compensation actual) {
-        assertEquals(expected.getEmployeeId(), actual.getEmployeeId());
         assertEquals(expected.getSalary(), actual.getSalary(), 0);
         assertEquals(expected.getEffectiveDate(), actual.getEffectiveDate());
         assertEmployeeEquivalence(expected.getEmployee(), actual.getEmployee());

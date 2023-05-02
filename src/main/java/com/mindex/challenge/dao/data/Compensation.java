@@ -1,13 +1,9 @@
 package com.mindex.challenge.dao.data;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import java.util.Date;
 
 public class Compensation {
-    @Id
     private String employeeId;
-    @DBRef
     private Employee employee;
     private double salary;
     private Date effectiveDate;

@@ -1,9 +1,6 @@
 package com.mindex.challenge.dao.data;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-
 public class ReportingStructure {
-    @DBRef
     private Employee employee;
     private int numberOfReports;
 

@@ -66,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee.getDirectReports() != null) {
             count = employee.getDirectReports().size();
             for (Employee e : employee.getDirectReports()) {
-                count += calculateNumberOfReports(e);
+                count += calculateNumberOfReports(employeeRepository.findByEmployeeId(e.getEmployeeId()));
             }
         }
         return count;
